@@ -8,9 +8,21 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
+
+
+    @Query(value = "SELECT email FROM users WHERE email = :email", nativeQuery = true)
+    List<String> checkUserEmail(@Param("email") String email);
+
+    @Query(value = "SELECT password FROM users WHERE email = :email", nativeQuery = true)
+    List<String> checkUserPasswordByEmail(@Param("email") String email);
+
+    @Query(value = "SELECT * FROM users WHERE email = :email", nativeQuery = true)
+    List<String> GetUserDetailsByEmail(@Param("email") String email);
 
     @Transactional
     @Modifying
