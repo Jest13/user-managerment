@@ -21,7 +21,7 @@ public class UserService {
         return userRepository.checkUserEmail(email);
     }
 
-    public List<String> checkUserPasswordByEmail(String email){
+    public String checkUserPasswordByEmail(String email){
         return userRepository.checkUserPasswordByEmail(email);
     }
 
