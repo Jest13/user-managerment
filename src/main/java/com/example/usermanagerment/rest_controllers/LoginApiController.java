@@ -22,21 +22,19 @@ public class LoginApiController {
     UserService userService;
 
     @PostMapping("/user/login")
-    public ResponseEntity authenticateUser(@RequestBody Login login){
-
+    public ResponseEntity authenticateUser(@RequestBody Login login) {
         List<String> userEmail = userService.checkUserEmail(login.getEmail());
-        if(userEmail.isEmpty() || userEmail == null){
+        if (userEmail.isEmpty() || userEmail == null) {
             return new ResponseEntity("Email does not exist", HttpStatus.NOT_FOUND);
         }
 
-        String hashed_password = userService.checkUserPasswordByEmail(login.getEmail());
+        String hashedPassword = userService.checkUserPasswordByEmail(login.getEmail());
 
-        if(!BCrypt.checkpw(login.getPassword(), hashed_password)){
+        if (!BCrypt.checkpw(login.getPassword(), hashedPassword)) {
             return new ResponseEntity("Incorrect username or password", HttpStatus.BAD_REQUEST);
         }
 
         User user = userService.getUserDetailByEmail(login.getEmail());
         return new ResponseEntity(user, HttpStatus.OK);
     }
-
 }
